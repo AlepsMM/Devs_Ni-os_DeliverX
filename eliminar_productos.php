@@ -12,7 +12,24 @@ if (!isset($_SESSION['username'])) {
 if ($_SESSION['user_type'] != 'i7t7Dn@tNTrJ!xTh') {
     header("Location: index.php");
     exit;
-  }
+}
+
+// Verificar si se ha enviado el formulario de deshabilitar
+if (isset($_POST['deshabilitar'])) {
+  $id = $_POST['deshabilitar'];
+  // Actualizar estado del producto a deshabilitado
+  $query = "UPDATE dulces SET habilitado = 0 WHERE id = $id";
+  mysqli_query($conn, $query);
+}
+
+// Verificar si se ha enviado el formulario de habilitar
+if (isset($_POST['habilitar'])) {
+  $id = $_POST['habilitar'];
+  // Actualizar estado del producto a habilitado
+  $query = "UPDATE dulces SET habilitado = 1 WHERE id = $id";
+  mysqli_query($conn, $query);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,16 +37,17 @@ if ($_SESSION['user_type'] != 'i7t7Dn@tNTrJ!xTh') {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Producto</title>
+    <title>Deshabilitar/Habilitar Producto</title>
 </head>
-  <div class="col-md-5">
 <body >
+  <div class="col-md-5">
     <table class="col-md-5">
-    <h1>Baja de Productos</h1>
+    <h1>Deshabilitar/Habilitar Productos</h1>
         <thead>
             <tr>
                 <th>Nombre</th>
                 <th>Precio</th>
+                <th>Estado</th>
                 <th>Acción</th>
             </tr>
         </thead>
@@ -42,15 +60,24 @@ if ($_SESSION['user_type'] != 'i7t7Dn@tNTrJ!xTh') {
                 <tr>
                     <td><?php echo $row['nombre']; ?></td>
                     <td>$<?php echo $row['precio']; ?></td>
+                    <td><?php echo $row['habilitado'] ? 'Habilitado' : 'Deshabilitado'; ?></td>
                     <td>
-                        <form action="eliminar.php" method="post">
-                            <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-                            <input type="submit" value="Eliminar" class="btn btn-danger">
+                        <?php if ($row['habilitado']): ?>
+                        <form action="" method="post">
+                            <input type="hidden" name="deshabilitar" value="<?php echo $row['id']; ?>">
+                            <input type="submit" value="Deshabilitar" class="btn btn-danger">
                         </form>
+                        <?php else: ?>
+                        <form action="" method="post">
+                            <input type="hidden" name="habilitar" value="<?php echo $row['id']; ?>">
+                            <input type="submit" value="Habilitar" class="btn btn-success">
+                        </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
+  </div>
 </body>
 </html>

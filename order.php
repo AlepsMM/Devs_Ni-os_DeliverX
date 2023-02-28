@@ -99,9 +99,9 @@ mysqli_close($conn);
 </div>
 <?php 
     //conexion a la base de datos
-    $conn = mysqli_connect('sql301.epizy.com', 'epiz_33513806', '0NKvTvgI7w', 'epiz_33513806_deliverx');
+    $conn = mysqli_connect('localhost', 'root', '', 'deliverx');
     //consulta para obtener los dulces de la tabla
-    $query = "SELECT * FROM dulces";
+    $query = "SELECT * FROM dulces WHERE habilitado = '1'";
     $result = mysqli_query($conn, $query);
 ?>
 <table class="table text-white">

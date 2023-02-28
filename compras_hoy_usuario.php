@@ -51,8 +51,6 @@ session_start();
   </thead>
   <tbody>
     <?php
-      // Iniciar sesión
-      session_start();
         // Obtener el ID del usuario logueado
   $username = $_SESSION['username'];
 
